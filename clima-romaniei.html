@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ro"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clima României: Carpații ca sistem</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF4F7;--ink:#10222E;--mut:#52646F;--card:#fff;--line:#CCDAE2;--sun:#C93C20;--sea:#1A6E9E;--gold:#A87208;--moss:#2E7D6B;--sky1:#CFE3EE;--sky2:#F7E6D2;--rock:#2B4455;--mtn:#4E7F72;--on:#E3F0F7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07141D;--ink:#EAF2F6;--mut:#93A9B6;--card:#0E2433;--line:#1D3A4D;--sun:#FF7A4D;--sea:#52B5E6;--gold:#F2C14E;--moss:#5CC2A5;--sky1:#0B2A3C;--sky2:#3A2A2A;--rock:#16303F;--mtn:#2E6B5E;--on:#0F3047}}
+:root[data-theme="dark"]{--bg:#07141D;--ink:#EAF2F6;--mut:#93A9B6;--card:#0E2433;--line:#1D3A4D;--sun:#FF7A4D;--sea:#52B5E6;--gold:#F2C14E;--moss:#5CC2A5;--sky1:#0B2A3C;--sky2:#3A2A2A;--rock:#16303F;--mtn:#2E6B5E;--on:#0F3047}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "DM Sans",system-ui,sans-serif;
+background-image:repeating-radial-gradient(circle at 85% 5%,transparent 0 34px,color-mix(in srgb,var(--line) 55%,transparent) 34px 35px);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.05;margin:0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;gap:6px;align-items:center;padding:10px 16px;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);overflow-x:auto}
+nav a,nav button{color:var(--ink);text-decoration:none;font:500 14px "DM Sans",sans-serif;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);cursor:pointer;white-space:nowrap}
+nav a:hover,nav button:hover{border-color:var(--sun)}nav .sp{flex:1}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.hero{padding:72px 0 40px}
+.kick{color:var(--sun);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;margin:0 0 14px}
+h1{font-size:clamp(46px,9vw,104px);font-weight:800;letter-spacing:-.03em}
+h1 em{font-style:italic;background:linear-gradient(90deg,var(--sun),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:620px;color:var(--mut);font-size:20px;margin:22px 0}
+.who{display:flex;gap:10px;flex-wrap:wrap}.who span{padding:8px 16px;border-radius:99px;background:var(--ink);color:var(--bg);font-weight:700;font-size:14px}
+.ridge{width:100%;margin-top:30px}.ridge path{fill:none;stroke:var(--sun);stroke-width:2.5;stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 3s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+section{padding:64px 0}
+h2{font-size:clamp(32px,5vw,54px);font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+.sub{color:var(--mut);max-width:640px;margin:0 0 26px}
+.tag{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea);margin-bottom:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}
+svg{display:block;width:100%;height:auto}
+.scene{border-radius:20px;overflow:hidden;border:1px solid var(--line)}
+.ctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.btn{font:700 14px "DM Sans",sans-serif;padding:10px 18px;border-radius:99px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--sun)}.btn.act{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input[type=range]{flex:1;min-width:200px;accent-color:var(--sun);height:32px}
+.meters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:6px}
+.m b{font:800 34px Fraunces,Georgia,serif;display:block}.m small{color:var(--mut);font-weight:500}
+.bar{height:8px;border-radius:9px;background:var(--line);margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;width:0;border-radius:9px;background:var(--sea)}
+.zone{margin-top:16px;padding:16px 18px;border-radius:16px;background:var(--on);min-height:84px}
+.switch{display:inline-flex;padding:5px;border-radius:99px;background:var(--card);border:1px solid var(--line);margin-bottom:16px}
+.switch button{font:700 15px "DM Sans",sans-serif;border:0;background:transparent;color:var(--mut);padding:12px 24px;border-radius:99px;cursor:pointer;transition:.25s}
+.switch button.act{background:var(--sea);color:#fff}.switch button.act.off{background:var(--sun)}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.chip{border-radius:18px;padding:14px 16px;background:var(--on);border:1px solid var(--line);transition:.4s}
+.chip.off{background:color-mix(in srgb,var(--sun) 14%,var(--card));border-color:var(--sun)}
+.chip h4{margin:0 0 4px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.chip p{margin:0;font-weight:500}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:30px 0 14px}
+.ifs{display:grid;gap:12px}
+.if{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:var(--card)}
+.if div{padding:16px 18px}.if .a{background:var(--sea);color:#fff;font-weight:700}.if .a::before{content:"IF  ";opacity:.75}
+.if .b{color:var(--mut);transition:.3s}.if:not(.open) .b{filter:blur(7px);user-select:none}.if.open .b{color:var(--ink)}.if .b::before{content:"THEN  ";color:var(--sun);font-weight:700}
+@media(max-width:640px){.if{grid-template-columns:1fr}}
+.reg{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:center}
+@media(max-width:700px){.reg{grid-template-columns:1fr}}
+.arrow{transition:transform 1.1s cubic-bezier(.3,1.4,.5,1);transform-origin:100px 100px}
+.rows{display:grid;gap:10px}.row{padding:12px 16px;border-radius:14px;background:var(--on)}.row small{display:block;color:var(--mut);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.row.risk{background:color-mix(in srgb,var(--sun) 16%,var(--card))}
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:20px}
+.big .card b{font:800 56px Fraunces,Georgia,serif;color:var(--sun);display:block;line-height:1}
+footer{padding:40px 0 60px;color:var(--mut);font-size:14px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+.dash{stroke-dasharray:7 11;animation:fl 1s linear infinite}@keyframes fl{to{stroke-dashoffset:-18}}
+.mtn{transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<nav><a href="#e1">Etapa I</a><a href="#e2">Etapa II</a><a href="#e3">Etapa III</a><a href="#fin">Concluzie</a><span class="sp"></span><button id="th" aria-label="Schimbă tema">◐ Temă</button></nav>
+
+<header class="wrap hero"><p class="kick">Geografie · Proiect în echipă</p>
+<h1>Clima României<br><em>dincolo de Carpați</em></h1>
+<p class="lead">Tratăm clima ca pe un sistem cu input și output. Ce se întâmplă cu aerul când întâlnește un lanț de munți? Mută sliderul, apasă pe carduri, dărâmă munții.</p>
+<div class="who"><span>Flămând Emanuel</span><span>Boca Lorena</span></div>
+<svg class="ridge" viewBox="0 0 1000 120" aria-hidden="true"><path d="M0 110 C120 108 220 100 330 92 C420 84 470 40 520 26 L560 8 L600 30 L640 14 L690 44 C760 80 860 100 1000 104"/></svg></header>
+
+<main class="wrap">
+<section id="e1" class="rv"><span class="tag">Etapa I · Analiză de date</span><h2>Paradoxul latitudinii</h2>
+<p class="sub">Același paralel (~47° N), aceeași radiație solară, dar trei climate diferite. Trage markerul de la Atlantic spre Moldova.</p>
+<div class="card"><div class="scene" id="s1"></div>
+<div class="ctrl"><button class="btn" data-c="6">Nantes</button><button class="btn" data-c="50">Cluj-Napoca</button><button class="btn" data-c="92">Iași</button><button class="btn" id="play">▶ Parcurge</button><input id="sl" type="range" min="6" max="92" value="6" aria-label="Poziție vest-est"></div>
+<div class="meters">
+<div class="m"><small>T ianuarie</small><b id="ti">–</b><div class="bar"><i id="bi"></i></div></div>
+<div class="m"><small>T iulie</small><b id="tj">–</b><div class="bar"><i id="bj" style="background:var(--sun)"></i></div></div>
+<div class="m"><small>Amplitudine ΔT</small><b id="dt">–</b><div class="bar"><i id="bd" style="background:var(--gold)"></i></div></div>
+<div class="m"><small>Precipitații</small><b id="pp">–</b><div class="bar"><i id="bp" style="background:var(--moss)"></i></div></div></div>
+<div class="zone" id="zn"></div></div>
+<p class="sub" style="margin-top:14px;font-size:14px">Valorile sunt orientative (normale climatice rotunjite) și între orașe sunt interpolate. De verificat pe Climate-Data.org sau Meteoblue.</p></section>
+
+<section id="e2" class="rv"><span class="tag">Etapa II · „What-If”</span><h2>Debugging climatic: fără Carpați</h2>
+<p class="sub">Schimbă „codul sursă” al reliefului și urmărește cum se rescriu vânturile.</p>
+<div class="switch" role="group"><button class="act" id="on">Cu Carpați</button><button id="off">Fără Carpați</button></div>
+<div class="card"><div class="scene" id="s2"></div><div class="chips" id="chips"></div></div>
+<div class="tabs" id="tabs"></div><div class="ifs" id="ifs"></div>
+<div class="ctrl"><button class="btn" id="all">Arată toate consecințele</button><span style="color:var(--mut);font-size:14px">Apasă pe un card ca să dezvălui THEN.</span></div></section>
+
+<section id="e3" class="rv"><span class="tag">Etapa III · Studiu de caz</span><h2>Banat vs. Moldova</h2>
+<p class="sub">Două regiuni, două centre barice, două riscuri. Alege regiunea.</p>
+<div class="ctrl" id="rb"></div>
+<div class="card reg"><svg viewBox="0 0 200 200" aria-label="Busolă vânt"><circle cx="100" cy="100" r="86" fill="var(--on)" stroke="var(--line)" stroke-width="2"/>
+<g fill="var(--mut)" font-size="14" font-weight="700" text-anchor="middle"><text x="100" y="26">N</text><text x="176" y="105">E</text><text x="100" y="186">S</text><text x="24" y="105">V</text></g>
+<g class="arrow" id="ar"><path d="M100 40 L118 100 L100 90 L82 100Z" fill="var(--sun)"/><rect x="96" y="90" width="8" height="50" rx="4" fill="var(--sun)"/></g></svg>
+<div class="rows" id="rr"></div></div></section>
+
+<section id="fin" class="rv"><span class="tag">Concluzie</span><h2>Carpații: filtru și regulator</h2>
+<div class="big"><div class="card"><b data-n="10" data-p="+" data-s=" °C">0</b>creștere a ΔT, Nantes → Iași</div>
+<div class="card"><b data-n="35" data-p="−" data-s="%">0</b>precipitații, Nantes → Iași (≈ 800 → ≈ 520 mm)</div>
+<div class="card"><b data-n="3" data-p="" data-s=" roluri">0</b>barieră pentru aerul oceanic, filtru pentru Crivăț, „castel de apă”</div></div></section>
+</main>
+<footer class="wrap">Flămând Emanuel · Boca Lorena · Proiect de geografie: clima Europei și a României</footer>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+function scene(id,mk){
+return '<svg viewBox="0 0 800 270" role="img" aria-label="Profil vest-est: Atlantic, Carpați, Moldova"><defs><linearGradient id="g'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient>'+
+'<clipPath id="co'+id+'"><rect id="cor'+id+'" x="0" y="0" width="470" height="270"/></clipPath><clipPath id="cc'+id+'"><rect id="ccr'+id+'" x="620" y="0" width="180" height="270"/></clipPath></defs>'+
+'<rect width="800" height="270" fill="url(#g'+id+')"/>'+
+'<g class="mtn" id="mt'+id+'"><path d="M430 202 L500 122 L540 86 L575 118 L612 78 L652 126 L720 202Z" fill="var(--mtn)"/><path d="M540 86 L525 104 L540 98 L552 106Z M612 78 L598 96 L612 90 L626 98Z" fill="#fff" opacity=".85"/></g>'+
+'<rect x="0" y="200" width="800" height="70" fill="var(--rock)"/><rect x="0" y="200" width="46" height="70" fill="var(--sea)"/>'+
+'<path d="M0 200 q12 -8 23 0 t23 0" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>'+
+'<g id="rn'+id+'" opacity=".9" stroke="var(--sea)" stroke-width="2.5" stroke-linecap="round"><ellipse cx="490" cy="62" rx="40" ry="16" fill="var(--card)" stroke="none"/><path d="M470 84v16M490 84v22M510 84v14"/></g>'+
+(mk?'<g id="mk"><line x1="0" y1="20" x2="0" y2="200" stroke="var(--sun)" stroke-width="3" stroke-dasharray="6 6"/><circle cx="0" cy="200" r="9" fill="var(--sun)" stroke="#fff" stroke-width="3"/></g>':
+'<g clip-path="url(#co'+id+')"><path class="dash" d="M30 120 C200 100 330 140 790 112" fill="none" stroke="var(--sea)" stroke-width="4" stroke-linecap="round"/></g>'+
+'<g clip-path="url(#cc'+id+')"><path class="dash" d="M790 60 C600 80 400 40 10 70" fill="none" stroke="var(--sun)" stroke-width="4" stroke-linecap="round"/></g>'+
+'<text x="52" y="108" font-size="13" font-weight="700" fill="var(--sea)">Aer oceanic (V)</text><text x="640" y="48" font-size="13" font-weight="700" fill="var(--sun)">Crivăț (NE)</text>')+
+'<g font-size="14" font-weight="700" fill="#fff" text-anchor="middle"><text x="23" y="240">Atlantic</text><text x="300" y="235">Câmpia de Vest</text><text x="745" y="235">Moldova</text></g>'+
+(mk?'<g fill="#fff" stroke="var(--rock)" stroke-width="2"><circle cx="48" cy="200" r="5"/><circle cx="400" cy="196" r="5"/><circle cx="736" cy="192" r="5"/></g>':'')+'</svg>'}
+$("#s1").innerHTML=scene(1,true);$("#s2").innerHTML=scene(2,false);
+function tween(a,b,ms,f,done){var t0=performance.now();(function s(t){var k=Math.min(1,(t-t0)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;f(a+(b-a)*e);k<1?requestAnimationFrame(s):done&&done()})(t0)}
+/* Etapa I */
+var D=[{n:"Nantes",x:6,a:5,b:19.5,p:800},{n:"Cluj-Napoca",x:50,a:-3.5,b:19,p:600},{n:"Iași",x:92,a:-3.5,b:21,p:520}];
+function at(v){if(v<=D[0].x)return D[0];for(var i=0;i<2;i++)if(v<=D[i+1].x){var t=(v-D[i].x)/(D[i+1].x-D[i].x),A=D[i],B=D[i+1],l=function(k){return A[k]+(B[k]-A[k])*t};return{a:l("a"),b:l("b"),p:l("p")}}return D[2]}
+var f1=function(n){return n.toFixed(1).replace(".",",")};
+var Z=["Zona oceanică: aerul vestic umed moderează temperaturile. Iernile sunt blânde, verile răcoroase, iar continentalismul termic este redus.","Aerul urcă pe versantul vestic al Carpaților, se răcește și precipită. Aceasta este bariera orografică. Departe de ocean, temperaturile devin tot mai extreme.","Umbra pluviometrică: aerul coboară cald și uscat. Precipitațiile sunt minime, iar amplitudinea termică maximă."];
+function up(v){v=+v;$("#sl").value=v;$("#mk").setAttribute("transform","translate("+v*8+",0)");var d=at(v);
+$("#ti").textContent=f1(d.a)+" °C";$("#tj").textContent=f1(d.b)+" °C";$("#dt").textContent=f1(d.b-d.a)+" °C";$("#pp").textContent=Math.round(d.p)+" mm";
+$("#bi").style.width=(d.a+10)/35*100+"%";$("#bj").style.width=(d.b+10)/35*100+"%";$("#bd").style.width=(d.b-d.a)/30*100+"%";$("#bp").style.width=d.p/900*100+"%";
+$("#zn").innerHTML="<b>"+(v<30?"Nantes · Vest":v<70?"Cluj-Napoca · Centru":"Iași · Est")+".</b> "+(v<30?Z[0]:v<70?Z[1]:Z[2]);
+document.querySelectorAll("[data-c]").forEach(function(b){var c=+b.dataset.c;b.classList.toggle("act",Math.abs(c-v)<4)})}
+$("#sl").oninput=function(){up(this.value)};
+document.querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){tween(+$("#sl").value,+b.dataset.c,700,up)}});
+$("#play").onclick=function(){tween(6,92,7000,up)};up(6);
+/* Etapa II */
+var CH=[["Precipitații în Moldova","Barieră și umbră pluviometrică: ≈ 520 mm","Aerul oceanic ajunge mai departe: precipitațiile cresc moderat"],["Crivățul iarna","Oprit parțial de Carpații Orientali","Ajunge liber în Transilvania și Câmpia de Vest"],["Polul frigului","Există în depresiuni (Ciuc, Joseni)","Dispare: nu mai există „lacuri de aer rece”"],["Râurile vara","„Castelul de apă” alimentează Mureșul, Oltul, Siretul","Debite mici, râuri intermitente în secetă"]];
+var free=false;
+function set(fr){free=fr;$("#on").className=fr?"":"act";$("#off").className=fr?"act off":"";
+var m=$("#mt2");m.style.transform=fr?"scaleY(.05)":"scaleY(1)";$("#rn2").style.opacity=fr?.25:.9;
+var o=$("#cor2"),c=$("#ccr2");tween(+o.getAttribute("width"),fr?800:470,1100,function(v){o.setAttribute("width",v)});
+tween(+c.getAttribute("x"),fr?0:620,1100,function(v){c.setAttribute("x",v);c.setAttribute("width",800-v)});
+$("#chips").innerHTML=CH.map(function(x){return '<div class="chip'+(fr?" off":"")+'"><h4>'+x[0]+'</h4><p>'+x[fr?2:1]+'</p></div>'}).join("")}
+$("#on").onclick=function(){set(false)};$("#off").onclick=function(){set(true)};set(false);
+var T=[["Circulația aerului",[["Aerul vestic nu mai e oprit de Carpați","pătrunde spre est; precipitațiile din Moldova și Bărăgan cresc moderat"],["Dispar umbra pluviometrică și föhnul","scade ariditatea; secetele devin mai rare"],["Carpații Orientali nu mai blochează Crivățul","aerul arctic din NE ajunge liber în Transilvania și Câmpia de Vest, cu viscole mai frecvente"]]],
+["Inversiuni termice",[["Dispar depresiunile (Ciuc, Giurgeu, Întorsura Buzăului)","nu mai există bazine în care aerul rece și dens să se adune"],["Vântul amestecă aerul pe terenul deschis","nu mai apar „lacuri de aer rece” în nopțile senine"],["Dispar inversiunile","polul frigului dispare; frigul extrem se mută în câmpii, dar mai slab"]]],
+["Etajare și râuri",[["Altitudinile coboară sub 200 m","dispare complet climatul de munte (etajul montan și alpin)"],["Dispar zăpada și „castelul de apă”","izvoarele pierd alimentarea permanentă"],["Vara este secetoasă","Mureș, Olt, Siret, Prut și Argeș au debite mici sau devin intermitente; hidroenergia și irigațiile suferă"]]]];
+function tab(i){document.querySelectorAll("#tabs .btn").forEach(function(b,j){b.classList.toggle("act",i===j)});
+$("#ifs").innerHTML=T[i][1].map(function(r){return '<div class="if"><div class="a">'+r[0]+'</div><div class="b">'+r[1]+'</div></div>'}).join("");
+document.querySelectorAll(".if").forEach(function(e){e.onclick=function(){e.classList.toggle("open")}})}
+$("#tabs").innerHTML=T.map(function(t,i){return '<button class="btn">'+t[0]+'</button>'}).join("");
+document.querySelectorAll("#tabs .btn").forEach(function(b,i){b.onclick=function(){tab(i)}});tab(0);
+$("#all").onclick=function(){document.querySelectorAll(".if").forEach(function(e){e.classList.add("open")})};
+/* Etapa III */
+var R={"Banat · Emanuel":{r:45,v:"Austrul (cald, din SV) și Coșava (SE)",a:"Cicloni mediteraneeni, cu influențe oceanice (Anticiclonul Azoric)",k:"Ploi torențiale și inundații",s:"Diguri, polderi și acumulări de retenție pentru controlul viiturilor"},"Moldova · Lorena":{r:225,v:"Crivățul (rece, din NE)",a:"Anticiclonul Est-European/Siberian (iarna)",k:"Secetă vara și viscol iarna",s:"Irigații prin picurare și perdele forestiere de protecție"}};
+var ks=Object.keys(R);
+function reg(k){var d=R[k];$("#ar").style.transform="rotate("+d.r+"deg)";
+document.querySelectorAll("#rb .btn").forEach(function(b){b.classList.toggle("act",b.textContent===k)});
+$("#rr").innerHTML='<div class="row"><small>Vânt dominant</small>'+d.v+'</div><div class="row"><small>Masă de aer / centru baric</small>'+d.a+'</div><div class="row risk"><small>Risc climatic major</small><b>'+d.k+'</b></div><div class="row"><small>Soluție concretă</small>'+d.s+'</div>'}
+$("#rb").innerHTML=ks.map(function(k){return '<button class="btn">'+k+'</button>'}).join("");
+document.querySelectorAll("#rb .btn").forEach(function(b){b.onclick=function(){reg(b.textContent)}});reg(ks[0]);
+/* tema + reveal + numere */
+$("#th").onclick=function(){var d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark"};
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll("[data-n]").forEach(function(n){var t=+n.dataset.n;tween(0,t,1400,function(v){n.textContent=n.dataset.p+Math.round(v)+n.dataset.s})});io.unobserve(e.target)}})},{threshold:.15});
+document.querySelectorAll(".rv").forEach(function(e){io.observe(e)});
+})();
+</script></body></html>
